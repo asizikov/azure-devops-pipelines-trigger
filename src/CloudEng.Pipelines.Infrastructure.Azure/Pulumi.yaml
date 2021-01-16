@@ -1,0 +1,3 @@
+name: CloudEng.Pipelines.Infrastructure.Azure
+runtime: dotnet
+description: Infrastructure project for CloudEng.Pipelines project

@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{545CFC7F-CDB1-46B5-8939-8DA3235B180D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6B0CBF9B-6895-4F3E-BBEB-582EB7B701D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C285BB08-2708-41D9-BBE4-3C0310156578}"
+ProjectSection(SolutionItems) = preProject
+	build\pipeline.yml = build\pipeline.yml
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEng.Pipelines.Trigger", "src\CloudEng.Pipelines.Trigger\CloudEng.Pipelines.Trigger.csproj", "{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEng.Pipelines.Infrastructure.Azure", "src\CloudEng.Pipelines.Infrastructure.Azure\CloudEng.Pipelines.Infrastructure.Azure.csproj", "{B6B378EB-AA9F-4279-BE88-79749F8F887E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75} = {545CFC7F-CDB1-46B5-8939-8DA3235B180D}
+		{B6B378EB-AA9F-4279-BE88-79749F8F887E} = {545CFC7F-CDB1-46B5-8939-8DA3235B180D}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
