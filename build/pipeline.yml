@@ -96,6 +96,5 @@ stages:
                   appType: 'functionApp'
                   appName: '$(azureFunctionAppName)'
                   package: '$(Pipeline.Workspace)/WebhookFunction/$(Build.BuildId).zip'
-                  resourceGroupName: '$(resourceGroupName)'
                   deployToSlotOrASE: false
                   deploymentMethod: 'auto'
