@@ -8,13 +8,42 @@ trigger:
     
 pool:
   vmImage: 'ubuntu-20.04'
+  
 variables:
+  - group: 'AccessTokens'
   - name: buildConfiguration
     value: 'Release'
   - name: appWorkingDir
     value: '$(System.DefaultWorkingDirectory)/src/CloudEng.Pipelines.Trigger'
+  - name: azureSubscriptionName
+    value: 'Azure Service Connection'
     
 stages:
+  - stage: update_infrastructure
+    displayName: 'Prepare Azure infrastructure'
+    jobs:
+      - job: Infrastructure
+        variables:
+          stackName: 'production'
+          infra_project_dir: '$(System.DefaultWorkingDirectory)/src/CloudEng.Pipelines.Infrastructure.Azure'
+        steps:
+          - checkout: self
+            displayName: 'Checkout code'
+            fetchDepth: 1            
+          - task: Pulumi@1
+            displayName: 'Pulumi up'
+            inputs:
+              azureSubscription: $(azureSubscriptionName)
+              command: 'up'
+              args: '--yes'
+              cwd: '$(infra_project_dir)'
+              stack: '$(stackName)'
+
+          - script: |
+              echo "complete"
+            displayName: 'Set stack outputs as variables'
+            name: 'pulumi'
+
   - stage: build_application
     displayName: 'Build and Pack Azure Function App'
     dependsOn: []
