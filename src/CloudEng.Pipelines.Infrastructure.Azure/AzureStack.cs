@@ -72,7 +72,10 @@ namespace CloudEng.Pipelines.Infrastructure.Azure
             HostName = app.DefaultHostname;
         }
 
+        [Output]
         public Output<string> FunctionAppName { get; set; }
+        
+        [Output]
         public Output<string> HostName { get; set; }
     }
 }
