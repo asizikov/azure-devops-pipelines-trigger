@@ -13,38 +13,18 @@ namespace CloudEng.Pipelines.Infrastructure.Azure
     {
         public AzureStack() : base(new StackOptions
         {
-            ResourceTransformations =
-            {
-                args =>
-                {
-                    var tagp = args.Args.GetType().GetProperty("Tags");
-                    if (tagp is null)
-                    {
-                        return null;
-                    }
-
-                    var tags = (InputMap<string>) tagp.GetValue(args.Args, null)!;
-                    tags["ProvisionedBy"] = "Pulumi";
-
-                    tagp.SetValue(args.Args, tags, null);
-                    return new ResourceTransformationResult(args.Args, args.Options);
-                }
-            }
+            ResourceTransformations = { Transformations.AddLocation, Transformations.AddTags }
         })
         {
-            // Create an Azure Resource Group
             var resourceGroup = new ResourceGroup("rg-cloud-eng-pipelines", new ResourceGroupArgs
             {
-                ResourceGroupName = "rg-cloud-eng-pipelines01",
-                Location = "westeurope"
+                ResourceGroupName = "rg-cloud-eng-pipelines",
             });
-
-            // Create an Azure resource (Storage Account)
-            var storageAccount = new StorageAccount("cengpipelinetrigger", new StorageAccountArgs
+            
+            var storageAccount = new StorageAccount("sacengpipelinetrigger", new StorageAccountArgs
             {
                 AccountName = "sacengpipelinetrigger",
                 ResourceGroupName = resourceGroup.Name,
-                Location = resourceGroup.Location,
                 Sku = new SkuArgs
                 {
                     Name = SkuName.Standard_LRS
@@ -55,12 +35,10 @@ namespace CloudEng.Pipelines.Infrastructure.Azure
                 DependsOn = resourceGroup
             });
 
-
-            var servicePlan = new AppServicePlan("cloud-eng", new AppServicePlanArgs
+            var servicePlan = new AppServicePlan("asp-cloud-eng-trigger", new AppServicePlanArgs
             {
-                Name = "asp-cloud-eng",
+                Name = "asp-cloud-eng-trigger",
                 ResourceGroupName = resourceGroup.Name,
-                Location = resourceGroup.Location,
                 Kind = "FunctionApp",
                 Sku = new SkuDescriptionArgs
                 {
