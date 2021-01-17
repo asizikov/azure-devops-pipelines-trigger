@@ -1,11 +1,9 @@
-using System.Threading.Tasks;
 using Pulumi;
-using Pulumi.AzureNextGen.AzureStack.Latest;
-using Pulumi.AzureNextGen.Resources.Latest;
-using Pulumi.AzureNextGen.Storage.Latest;
-using Pulumi.AzureNextGen.Storage.Latest.Inputs;
-using Pulumi.AzureNextGen.Web.Latest;
-using Pulumi.AzureNextGen.Web.Latest.Inputs;
+using Pulumi.Azure.AppInsights;
+using Pulumi.Azure.AppService;
+using Pulumi.Azure.AppService.Inputs;
+using Pulumi.Azure.Core;
+using Pulumi.Azure.Storage;
 
 namespace CloudEng.Pipelines.Infrastructure.Azure
 {
@@ -13,43 +11,68 @@ namespace CloudEng.Pipelines.Infrastructure.Azure
     {
         public AzureStack() : base(new StackOptions
         {
-            ResourceTransformations = { Transformations.AddLocation, Transformations.AddTags }
+            ResourceTransformations = {Transformations.AddLocation, Transformations.AddTags}
         })
         {
             var resourceGroup = new ResourceGroup("rg-cloud-eng-pipelines", new ResourceGroupArgs
             {
-                ResourceGroupName = "rg-cloud-eng-pipelines",
-            });
-            
-            var storageAccount = new StorageAccount("sacengpipelinetrigger", new StorageAccountArgs
-            {
-                AccountName = "sacengpipelinetrigger",
-                ResourceGroupName = resourceGroup.Name,
-                Sku = new SkuArgs
-                {
-                    Name = SkuName.Standard_LRS
-                },
-                Kind = Kind.StorageV2,
-            }, new CustomResourceOptions
-            {
-                DependsOn = resourceGroup
+                Name = "rg-cloud-eng-pipelines"
             });
 
-            var servicePlan = new AppServicePlan("asp-cloud-eng-trigger", new AppServicePlanArgs
+            var plan = new Plan("asp-cloud-eng-trigger", new PlanArgs
             {
-                Name = "asp-cloud-eng-trigger",
                 ResourceGroupName = resourceGroup.Name,
                 Kind = "FunctionApp",
-                Sku = new SkuDescriptionArgs
+                Sku = new PlanSkuArgs
                 {
-                    Name = "Y1",
                     Tier = "Dynamic",
                     Size = "Y1"
                 }
-            }, new CustomResourceOptions
-            {
-                DependsOn = resourceGroup
             });
+
+            var storageAccount = new Account("sacengpipelinetrigger", new AccountArgs
+            {
+                Name = "sacengpipelinetrigger",
+                ResourceGroupName = resourceGroup.Name,
+                AccountReplicationType = "LRS",
+                AccountTier = "Standard",
+                AccountKind = "StorageV2"
+            });
+
+            var appInsights = new Insights("cloud-eng-pipeline-trigger", new InsightsArgs
+            {
+                Name = "cloud-eng-pipeline-trigger",
+                Location = resourceGroup.Location,
+                ResourceGroupName = resourceGroup.Name,
+                ApplicationType = "web",
+            });
+
+            var app = new FunctionApp($"cloud-eng-pipeline-trigger", new FunctionAppArgs
+            {
+                Name = "cloud-eng-pipeline-trigger",
+                ResourceGroupName = resourceGroup.Name,
+                AppServicePlanId = plan.Id,
+                StorageAccountName = storageAccount.Name,
+                StorageAccountAccessKey = storageAccount.PrimaryAccessKey,
+                Version = "~3",
+                SiteConfig = new FunctionAppSiteConfigArgs
+                {
+                    Http2Enabled = true,
+                    ScmType = "VSTSRM"
+                },
+                AppSettings = new InputMap<string>
+                {
+                    {"WEBSITE_RUN_FROM_PACKAGE", "1"},
+                    {"APPINSIGHTS_INSTRUMENTATIONKEY", appInsights.InstrumentationKey},
+                    {"APPLICATIONINSIGHTS_CONNECTION_STRING", appInsights.ConnectionString}
+                }
+            });
+
+            FunctionAppName = app.Name;
+            HostName = app.DefaultHostname;
         }
+
+        public Output<string> FunctionAppName { get; set; }
+        public Output<string> HostName { get; set; }
     }
 }
