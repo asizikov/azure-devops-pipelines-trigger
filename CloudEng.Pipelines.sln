@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEng.Pipelines.Trigger"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEng.Pipelines.Infrastructure.Azure", "src\CloudEng.Pipelines.Infrastructure.Azure\CloudEng.Pipelines.Infrastructure.Azure.csproj", "{B6B378EB-AA9F-4279-BE88-79749F8F887E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEng.Pipelines.Trigger.Tests", "tests\CloudEng.Pipelines.Trigger.Tests\CloudEng.Pipelines.Trigger.Tests.csproj", "{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75} = {545CFC7F-CDB1-46B5-8939-8DA3235B180D}
 		{B6B378EB-AA9F-4279-BE88-79749F8F887E} = {545CFC7F-CDB1-46B5-8939-8DA3235B180D}
+		{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2} = {6B0CBF9B-6895-4F3E-BBEB-582EB7B701D3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{018CE61D-3CFB-4AC4-BFB5-E99F3D9B8C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -31,5 +34,9 @@ Global
 		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B378EB-AA9F-4279-BE88-79749F8F887E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8BB8A2-44A3-444B-A04A-F8D97CE2D7F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
