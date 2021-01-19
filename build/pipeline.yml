@@ -5,10 +5,10 @@ pr: none
 trigger:
   - main
   - feature/*
-    
+
 pool:
   vmImage: 'ubuntu-20.04'
-  
+
 variables:
   - group: 'AccessTokens'
   - name: buildConfiguration
@@ -17,7 +17,7 @@ variables:
     value: '$(System.DefaultWorkingDirectory)/src/CloudEng.Pipelines.Trigger'
   - name: azureSubscriptionName
     value: 'Azure Service Connection'
-    
+
 stages:
   - stage: update_infrastructure
     displayName: 'Prepare Azure infrastructure'
@@ -112,4 +112,4 @@ stages:
                   package: '$(Pipeline.Workspace)/WebhookFunction/$(Build.BuildId).zip'
                   deployToSlotOrASE: false
                   deploymentMethod: 'auto'
-                  appSettings: -ACCESS_TOKEN $ADO_ACCESS_TOKEN
+                  appSettings: '-ACCESS_TOKEN $(ADO_ACCESS_TOKEN)'
