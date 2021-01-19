@@ -29,7 +29,7 @@ stages:
         steps:
           - checkout: self
             displayName: 'Checkout code'
-            fetchDepth: 1            
+            fetchDepth: 1
           - task: Pulumi@1
             displayName: 'Pulumi up'
             inputs:
@@ -112,4 +112,4 @@ stages:
                   package: '$(Pipeline.Workspace)/WebhookFunction/$(Build.BuildId).zip'
                   deployToSlotOrASE: false
                   deploymentMethod: 'auto'
-                  appSettings: '-ACCESS_TOKEN $(ADO_ACCESS_TOKEN)'
+                  appSettings: '-ACCESS_TOKEN $env:ADO_ACCESS_TOKEN'
