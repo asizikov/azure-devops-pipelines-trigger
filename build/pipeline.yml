@@ -98,6 +98,8 @@ stages:
      - deployment: Deploy
        displayName: "Deploy Azure Function"
        environment: 'development'
+       env:
+         ADO_ACCESS_TOKEN: $(azure.devops.pat)
        strategy:
         runOnce:
           deploy:
@@ -110,3 +112,4 @@ stages:
                   package: '$(Pipeline.Workspace)/WebhookFunction/$(Build.BuildId).zip'
                   deployToSlotOrASE: false
                   deploymentMethod: 'auto'
+                  appSettings: -ACCESS_TOKEN $(ADO_ACCESS_TOKEN)
