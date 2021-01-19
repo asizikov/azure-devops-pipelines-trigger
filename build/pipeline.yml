@@ -98,13 +98,13 @@ stages:
      - deployment: Deploy
        displayName: "Deploy Azure Function"
        environment: 'development'
-       env:
-         ADO_ACCESS_TOKEN: $(azure.devops.pat)
        strategy:
         runOnce:
           deploy:
             steps:
               - task: AzureFunctionApp@1
+                env:
+                  ADO_ACCESS_TOKEN: $(azure.devops.pat)
                 inputs:
                   azureSubscription: $(azureSubscriptionName)
                   appType: 'functionApp'
